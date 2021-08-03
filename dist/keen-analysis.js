@@ -704,8 +704,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.mapKeysToUnderscore = mapKeysToUnderscore;
 function mapKeysToUnderscore(obj) {
-    var exludedKeys = ['cache'];
-    var excludedValues = ['index_by'];
+    var exludedKeys = ['cache', 'index_by'];
 
     if (!obj || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') return obj;
 
@@ -713,14 +712,14 @@ function mapKeysToUnderscore(obj) {
     var convertedObj = {};
     keys.forEach(function (key) {
         var value = obj[key];
-        if (exludedKeys.includes(key)) {
-            return convertedObj[key] = value;
-        }
-
         if (key.match(new RegExp('[A-Z]'))) {
             key = key.replace(/[A-Z]/g, function (k) {
                 return '_' + k.toLowerCase();
             });
+        }
+
+        if (exludedKeys.includes(key)) {
+            return convertedObj[key] = value;
         }
 
         if (Array.isArray(value)) {
@@ -729,7 +728,7 @@ function mapKeysToUnderscore(obj) {
             });
         }
 
-        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && !excludedValues.includes(key)) {
+        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
             return convertedObj[key] = mapKeysToUnderscore(value);
         }
 
