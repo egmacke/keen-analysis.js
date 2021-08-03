@@ -431,6 +431,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.mapKeysToUnderscore = mapKeysToUnderscore;
 function mapKeysToUnderscore(obj) {
     var exludedKeys = ['cache'];
+    var excludedValues = ['index_by'];
 
     if (!obj || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') return obj;
 
@@ -454,7 +455,7 @@ function mapKeysToUnderscore(obj) {
             });
         }
 
-        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
+        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && !excludedValues.includes(key)) {
             return convertedObj[key] = mapKeysToUnderscore(value);
         }
 
